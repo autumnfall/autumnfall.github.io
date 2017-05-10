@@ -1,0 +1,58 @@
+---
+layout: post
+title:  "des,rsa加密时遇到的问题"
+date:   2017-05-10 16:50:24 +0800
+categories: jekyll update
+---
+在项目中遇到了和java项目联调一个接口时，需要使用des算法加密部分数据然后使用rsa整个加密来做签名。
+最终找到了能解决的加密方法：
+{% highlight php %}
+function des_encrypt($input, $key)
+{           
+   $size = mcrypt_get_block_size('des','ecb');
+   $pad = $size - (strlen($input) % $size);  
+   $input = $input . str_repeat(chr($pad), $pad);
+   $td = mcrypt_module_open('des', '', 'ecb', '');  
+   $iv = @mcrypt_create_iv (mcrypt_enc_get_iv_size($td), MCRYPT_RAND);  
+   @mcrypt_generic_init($td, $key, $iv);  
+   $data = mcrypt_generic($td, $input);  
+   mcrypt_generic_deinit($td);  
+   mcrypt_module_close($td);  
+   $data = base64_encode($data);  
+   return $data;  
+}
+{% endhighlight %}
+然后是rsa加密，之前误认为是rsa私钥签名，所以有了下面代码：
+{% highlight php %}
+function rsa_sign($rsaPrivateKey)
+{           
+    $pemKey = chunk_split($rsaPrivateKey, 64, "\n");
+    $pem = "-----BEGIN PRIVATE KEY-----\n" . $pemKey . "-----END PRIVATE KEY-----\n";
+    $priKey = openssl_pkey_get_private($pem);
+    openssl_sign($dataGBK, $encrypted, $priKey, OPENSSL_ALGO_MD5); // 对数据进行签名
+    $sign = base64_encode($encrypted);
+    return $sign;  
+}
+{% endhighlight %}
+之后发现是公钥加密，私钥解密，然后查了下网上的代码：
+{% highlight php %}
+function rsa_decrypt($rsaPrivateKey,$encrypted)
+{
+    $prikey =  openssl_pkey_get_private($rsaPrivateKey);
+    openssl_private_decrypt(base64_decode($encrypted),$decrypted,$prikey);//私钥解密  
+    return $decrypted;
+}
+{% endhighlight %}
+然后发现怎么都解不了java那边传过来的加密字符串，中间以为是语言不同可能处理方式不一样，但是php加密过的java那边可以解密。
+最后发现是openssl_private_decrypt这个方法不能一步解出超过128位的加密字符串，分割一下解决了：
+{% highlight php %}
+function rsa_decrypt($encryptData,$rsaPrivateKey){
+    $crypto = '';
+    foreach (str_split(base64_decode($encryptData), 128) as $chunk) {
+        openssl_private_decrypt($chunk, $decryptData, $rsaPrivateKey);
+        $crypto .= $decryptData;
+    }
+    return $crypto;
+}
+{% endhighlight %}
+然后发现返回的值里面中文都是乱码，然后我建议java那边在中文做一下urlencode处理，然后我这边解密完之后做一下urldecode就完美解决啦。
