@@ -108,7 +108,7 @@ a:focus-visible { outline: 3px solid var(--gold); outline-offset: 5px; }
   .frame { width: calc(100% - 32px); }
   .shelf { grid-template-columns: 1fr; gap: 1.35rem; padding-bottom: 2rem; }
   .intro { padding-block: 2.3rem; }
-  .intro h1 { font-size: clamp(2.8rem, 12vw, 4.5rem); }
+  .intro h1 { font-size: clamp(2.55rem, 10vw, 4.5rem); }
   .table-pieces { right: 0; width: clamp(98px, 24vw, 140px); }
   .box-cover { aspect-ratio: 16 / 9; }
 }
