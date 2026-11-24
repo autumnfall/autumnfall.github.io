@@ -1,0 +1,71 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10231e">
+  <meta name="description" content="autumnfall 的在线桌游架。选择五十日坚守、桌游收藏家或城堡突袭，直接在浏览器里玩。">
+  <title>桌游开盒 · autumnfall</title>
+  <link rel="stylesheet" href="{{ '/assets/game-shelf/shelf.css' | relative_url }}">
+</head>
+<body>
+  <header class="topbar frame">
+    <a class="brand" href="/" aria-label="autumnfall 桌游主页">
+      <span class="brand-mark" aria-hidden="true">✦</span> autumnfall
+    </a>
+    <nav aria-label="站点导航">
+      <a href="/about/">关于</a>
+      <a href="https://github.com/autumnfall">GitHub</a>
+    </nav>
+  </header>
+  <main class="frame">
+    <section class="intro" aria-labelledby="shelf-title">
+      <div class="table-pieces" aria-hidden="true">
+        <span class="playing-card playing-card-back">✦</span>
+        <span class="playing-card playing-card-face">♣</span>
+        <span class="counter"></span>
+      </div>
+      <h1 id="shelf-title">桌游<span>开盒</span></h1>
+      <p>选一盒，马上开局。</p>
+    </section>
+    <section class="shelf" aria-label="可游玩的桌游">
+      <a class="game-box survival" href="/50days/">
+        <div class="box-cover">
+          <span class="cover-medallion" aria-hidden="true">♠</span>
+          <span class="box-genre">回合制生存</span>
+        </div>
+        <div class="box-label">
+          <h2>五十日坚守</h2>
+          <p>分配物资，应对危机，在荒野里撑过五十天。</p>
+          <span class="play">开始游戏 <span aria-hidden="true">✦</span></span>
+        </div>
+      </a>
+      <a class="game-box collector" href="/sologame/">
+        <div class="box-cover">
+          <span class="cover-medallion" aria-hidden="true">◆</span>
+          <span class="box-genre">收藏经营</span>
+        </div>
+        <div class="box-label">
+          <h2>桌游收藏家</h2>
+          <p>扩充桌游收藏，从热爱桌游的玩家成长为设计师。</p>
+          <span class="play">开始游戏 <span aria-hidden="true">✦</span></span>
+        </div>
+      </a>
+      <a class="game-box siege" href="/castle_rush/">
+        <div class="box-cover">
+          <span class="cover-medallion" aria-hidden="true">♜</span>
+          <span class="box-genre">单人卡牌策略</span>
+        </div>
+        <div class="box-label">
+          <h2>城堡突袭</h2>
+          <p>调配手牌和物资，逐层攻破城堡。</p>
+          <span class="play">开始游戏 <span aria-hidden="true">✦</span></span>
+        </div>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
